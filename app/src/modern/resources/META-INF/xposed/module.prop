@@ -1,0 +1,7 @@
+minApiVersion=101
+targetApiVersion=101
+# 作用域是写死的：入口 onPackageLoaded 对非 QQ 的包直接 return，装到别处也不会有
+# 任何行为，只是白白让框架往那个进程里注入。staticScope=true 让 LSPosed 提示用户
+# 不要往 scope.list 以外的应用上套。
+staticScope=true
+exceptionMode=protective

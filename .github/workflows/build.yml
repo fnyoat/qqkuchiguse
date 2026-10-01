@@ -1,0 +1,96 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # versionCode 现在是 app/build.gradle.kts 里的 VERSION_CODE 常量，跟历史长度无关。
+      # 但 versionName 里的分支名和提交数还要读 git（`git rev-list --count HEAD` 在浅克隆
+      # 下只数到 1），所以完整历史仍然要留着 —— 少了它只影响 versionName 的可读性。
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      # 直接用 runner 预装的 Android SDK：libxposed 102 要求 compileSdk 37，
+      # 自带的 2024 版 cmdline-tools 解析不到 platforms;android-37（会报
+      # "Failed to find package"）。runner 镜像里已有 37，省一次下载也更稳。
+      - name: Verify Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls -1 "$ANDROID_HOME/platforms" || true
+          # aapt2 / d8 都来自 build-tools，缺了就早点报错，别等 Gradle 抛一串看不懂的
+          BT=$(ls -1d "$ANDROID_HOME"/build-tools/* 2>/dev/null | sort -V | tail -1)
+          if [ -z "$BT" ]; then echo "no build-tools found"; exit 1; fi
+          echo "build-tools=$BT"
+
+      - name: Grant gradlew exec bit
+        run: chmod +x gradlew
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts') }}
+          restore-keys: gradle-${{ runner.os }}
+
+      # Signing secrets are injected via Actions secrets; no plaintext keystore
+      # in the repo. Without them the build falls back to the debug key, whose
+      # fingerprint changes on every runner -> in-place upgrades break and
+      # LSPosed's "trusted signer" state is lost.
+      - name: Provide signing config
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_B64" ]; then
+            echo "::warning::No signing secrets configured - building with the ephemeral debug key."
+            exit 0
+          fi
+          mkdir -p keystore
+          echo "$KEYSTORE_B64" | base64 -d > keystore/qqkuchiguse.jks
+          cat > signing.properties <<EOF
+          storeFile=../keystore/qqkuchiguse.jks
+          storePassword=$KEYSTORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          keyPassword=$KEY_PASSWORD
+          EOF
+
+      # 一次调用出两个 flavor：共用同一个 Gradle daemon 和 configuration 阶段，
+      # 比两次 --no-daemon 少一次 JVM 启动 + 一次配置。
+      - name: Build release APKs
+        run: |
+          export ANDROID_HOME="${ANDROID_HOME:-$HOME/android-sdk}"
+          export ANDROID_SDK_ROOT="$ANDROID_HOME"
+          ./gradlew :app:assembleLegacyRelease :app:assembleModernRelease
+
+      - name: Upload Legacy APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: qq-kuchiguse-legacy-release
+          path: app/build/outputs/apk/legacy/release/app-legacy-release.apk
+
+      - name: Upload Modern APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: qq-kuchiguse-modern-release
+          path: app/build/outputs/apk/modern/release/app-modern-release.apk
+
+      - name: Build summary
+        run: |
+          echo "## Kuchiguse" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Package name: io.github.fnyoat.qqkuchiguse" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Install the APK, then enable the module in LSPosed and pick the package above." >> "$GITHUB_STEP_SUMMARY"
