@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <!--
+      包可见性：设置页现在从 QQ 进程里通过显式 ComponentName 拉起，但 Android 11+
+      默认让 QQ「看不见」没声明 queries 的包，于是解析 Activity 时报
+      `Activity class {...SettingsActivity} does not exist`（result code=-92），
+      表现就是点了没反应。声明自己即可，不涉及任何数据共享。
+    -->
+    <queries>
+        <package android:name="io.github.fnyoat.qqkuchiguse" />
+        <package android:name="com.tencent.mobileqq" />
+    </queries>
+
+    <application
+        android:label="@string/app_name"
+        android:allowBackup="false">
+
+        <!--
+          桌面图标只打开说明页。配置界面运行在 QQ 进程里，由 ActProxy 用 stub
+          Intent 拉起，独立进程里没有 QQ 的 ClassLoader/Resources，打不开。
+        -->
+        <activity
+            android:name=".DebugActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Kuchiguse">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 真正的设置页，只能由 QQ 进程内的 ActProxy 拉起，不作为桌面入口。 -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kuchiguse" />
+
+        <!--
+          名单页，设置页里那个入口点过来。也要自己声明：QQ 进程里起的是
+          com.tencent.mobileqq/io.github.fnyoat.qqkuchiguse.SessionListsActivity，
+          跟设置页一样靠 ActProxy 伪造 ActivityInfo 才认得。
+        -->
+        <activity
+            android:name=".SessionListsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kuchiguse" />
+
+        <!-- Standalone Xposed module registration. -->
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="给发出的QQ消息追加口癖（前缀/后缀）" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/xposed_scope" />
+    </application>
+
+</manifest>

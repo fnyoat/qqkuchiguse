@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">qqkuchiguse</string>
+    <string name="settings_title">口癖设置</string>
+
+    <string name="tester_section">实时检测器</string>
+    <string name="tester_run">检测</string>
+    <string name="tester_cancel">取消预览</string>
+
+    <string name="general_section">通用</string>
+    <string name="enable_module">功能总开关</string>
+    <string name="scope_label">口癖抽签范围</string>
+    <string name="scope_sentence">逐句抽签（每句各抽一次）</string>
+    <string name="scope_whole">整条只抽一次（每句都用它）</string>
+
+    <string name="probability_pool_label">总概率池</string>
+    <string name="probability_pool_hint">整条消息被处理的基础概率。对仗句子绕过此门槛。</string>
+    <string name="length_prob_label">长度门槛（0 为关闭）</string>
+    <string name="length_prob_hint">达到该长度的句子必定处理，更短的按长度缩放概率。</string>
+    <string name="length_gradient_label">长度梯度</string>
+    <string name="length_gradient_hint">&gt;1 更陡（短句概率更低）；&lt;1 更平缓。</string>
+    <string name="stability_label">概率稳定（保底比例）</string>
+    <string name="stability_hint">预期操作数 = 总概率池 × 可操作位。最小保底数为必定命中，其余按各自概率。0 关闭。</string>
+    <string name="stability_min_guaranteed_label">最小保底数</string>
+    <string name="stability_min_guaranteed_hint">至少必定命中的位置数。默认 3。</string>
+    <string name="length_auto_adjust_pool_label">密集时自动降低总概率池</string>
+    <string name="length_auto_adjust_pool_hint">句子多且短时把总概率池降到 80%，避免每句都被加口癖。</string>
+
+    <string name="advanced_section">详细设置</string>
+    <string name="hide_session_number">隐藏会话号码</string>
+    <string name="hide_session_number_hint">面板标题不显示好友 QQ 号和群号，只留模块名。名单里照常显示，判定不受影响。</string>
+    <string name="reset_config_label">重置为默认值</string>
+    <string name="config_unreadable_title">读不到 QQ 的配置文件</string>
+    <string name="config_unreadable_hint">读不到 QQ 的配置文件。下面显示的都是默认值，保存也会失败。</string>
+    <string name="about_label">关于</string>
+    <string name="about_dialog_title">关于 qqkuchiguse</string>
+    <string name="about_version_line">版本 %1$s</string>
+    <string name="about_dialog_message">给发出的 QQ 消息自动追加口癖。\n\n永久开源，本插件不联网。</string>
+    <string name="float_style_label">悬浮球样式</string>
+    <string name="float_style_size_hint">直径，单位 dp，默认 20。</string>
+    <string name="float_style_alpha_hint">不透明度，0 透明 1 不透明，默认 0.5。</string>
+
+    <string name="session_scope_section">会话作用域</string>
+    <string name="session_scope_hint">白名单：名单内放行，名单外拦截。黑名单：名单内拦截，名单外放行。</string>
+
+    <string name="single_scope_label">单聊当前生效的名单</string>
+    <string name="group_scope_label">群聊当前生效的名单</string>
+    <string name="list_mode_whitelist">白名单（放行）</string>
+    <string name="list_mode_blacklist">黑名单（拦截）</string>
+
+    <string name="lists_section_hint">四份名单互相独立，各自生效。</string>
+    <string name="session_lists_title">会话名单</string>
+    <string name="session_lists_entry">查看 / 整理会话名单</string>
+    <string name="session_list_off_notice">当前不参与判定，切回这个模式即生效。</string>
+    <string name="session_list_title_inactive">当前不生效：%1$s（%2$d 个）</string>
+    <string name="open_lists_failed_toast">打不开名单页</string>
+    <string name="tab_state_picked_effective">%1$s，当前显示，当前生效</string>
+    <string name="tab_state_picked">%1$s，当前显示，未生效</string>
+    <string name="tab_state_effective">%1$s，当前生效</string>
+    <string name="tab_state_plain">%1$s，未生效</string>
+    <string name="tab_single_whitelist">单聊白名单</string>
+    <string name="tab_single_blacklist">单聊黑名单</string>
+    <string name="tab_group_whitelist">群聊白名单</string>
+    <string name="tab_group_blacklist">群聊黑名单</string>
+    <string name="scope_single_short">单聊</string>
+    <string name="scope_group_short">群聊</string>
+
+    <string name="list_name_whitelist">白名单</string>
+    <string name="list_name_blacklist">黑名单</string>
+    <string name="session_list_title_active">当前生效：%1$s（%2$d 个）</string>
+    <string name="session_list_empty">这份名单是空的。</string>
+    <string name="session_list_clear_all">清空这份名单</string>
+    <string name="session_list_clear_all_confirm">确定要清空这份名单吗？将移除其中的 %1$d 个会话，另一份名单不受影响。</string>
+
+    <string name="group_chat">群聊：%1$s</string>
+    <string name="single_chat">单聊：%1$s</string>
+
+    <string name="show_advanced">展开详细设置</string>
+    <string name="hide_advanced">收起详细设置</string>
+    <string name="antithesis_label">对仗工整句必加后缀</string>
+    <string name="antithesis_hint">疑似诗句的对仗句必定加后缀。</string>
+
+    <string name="affix_section">前后缀（可自定义、带权重）</string>
+    <string name="affix_note">口癖按权重随机抽，贴在每句话上。「抽签范围」决定整条抽一次还是每句各抽一次。</string>
+    <string name="affix_repeat_penalty_label">重复削减 (%)</string>
+    <string name="affix_repeat_penalty_hint">上次用到的口癖，下次权重按这个百分比削减。填 0 关闭。</string>
+    <string name="affix_mix_kinds_label">允许同一句中前缀和后缀同时出现</string>
+    <string name="affix_mix_kinds_hint">关：一条消息只用一种类型，前缀和后缀不会同时出现。开：每句自由抽。只在「逐句抽签」下有区别。</string>
+    <string name="pangu_label">盘古之白（汉字与西文之间补空格）</string>
+    <string name="pangu_mode_off">关</string>
+    <string name="pangu_mode_affix">只对口癖接缝</string>
+    <string name="pangu_mode_whole">整条消息</string>
+    <string name="pangu_hint">整条消息会连正文内部一起扫：「这是QQ消息」变「这是 QQ 消息」。链接不拆。英文接英文不算盘古，看下面那个开关。</string>
+    <string name="affix_space_latin_latin_label">英文和英文之间补空格</string>
+    <string name="affix_space_latin_latin_hint">英文接英文时留一个空格，只在口癖接缝生效。</string>
+    <string name="affix_space_neither_hint">汉字接汉字、或有一边是标点时，任何档位都不补空格。</string>
+    <string name="bot_chinese_period_label">人机</string>
+    <string name="bot_chinese_period_hint">整条消息末尾没有标点时补一个中文句号。</string>
+    <string name="affix_tail_tilde_label">句尾加波浪号</string>
+    <string name="affix_tail_tilde_hint">给最后一句的口癖后补“~”。“人机”功能开启时本功能不生效。</string>
+    <string name="line_ends_sentence_label">下一行算句尾</string>
+    <string name="line_ends_sentence_hint">每个换行都算句尾，多行消息每行末尾都补句号。关掉时只有整条消息的最后一句才补。</string>
+    <string name="affix_empty">还没有配置前后缀。</string>
+    <string name="add_affix">添加前后缀</string>
+    <string name="edit_affix">编辑前后缀</string>
+    <string name="kind_prefix">前缀</string>
+    <string name="kind_suffix">后缀</string>
+    <string name="affix_text">文本</string>
+    <string name="affix_weight">权重</string>
+    <string name="prefix_short">前</string>
+    <string name="suffix_short">后</string>
+    <string name="weight_of">权重 %1$d</string>
+    <string name="affix_share">≈%1$s</string>
+
+    <string name="replace_section">替换列表</string>
+    <string name="replace_note">对每个句子按顺序执行替换。</string>
+    <string name="replace_empty">还没有配置替换。</string>
+    <string name="add_replacement">添加替换</string>
+    <string name="edit_replacement">编辑替换</string>
+    <string name="replace_from">查找</string>
+    <string name="replace_to">替换为</string>
+    <string name="from_to">%1$s → %2$s</string>
+
+    <string name="ignore_note">URL、纯 emoji 组成的句子保持原样；疑似密钥或口令的内容不动。</string>
+    <string name="ignore_url">链接不加口癖</string>
+    <string name="ignore_emoji">忽略 emoji</string>
+    <string name="ignore_random">密钥/口令不加口癖</string>
+
+    <string name="image_desc_section">图片与表情的外显</string>
+    <string name="image_desc_affix_hint">图片、表情、表情泡泡在聊天列表里那句字是 QQ 自己的（图片是「[图片]」，表情是「[表情]」，跟 QQ 语言一致）。开了之后把抽中的口癖塞进那对括号里（成对的括号才塞，凑不齐就照原样接在后面），不会覆盖你自己写过的说明。下面四类各选一档：跟主表一样、用公共口癖表、随机底句，或单独关掉。概率、名单、屏蔽词都照常管用。</string>
+    <string name="add_caption_base">添加随机文案</string>
+    <string name="edit_caption_base">编辑随机文案</string>
+    <string name="caption_base_placeholder">比如：一张风景</string>
+    <string name="caption_base_empty">还没加文案，关着的话就用 QQ 那句。</string>
+    <string name="block_section">禁用关键词</string>
+    <string name="block_hint">每行一个。命中任一关键词的消息不处理。</string>
+
+    <string name="float_enable">在聊天界面显示悬浮球</string>
+
+    <string name="reload_config_label">重新读取配置</string>
+    <string name="save">保存</string>
+    <string name="save_failed_toast">保存失败</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="saved_toast">已保存</string>
+
+    <string name="debug_title">Kuchiguse</string>
+    <string name="debug_body">这个应用没有配置界面，请不要在这里找设置。\n\n配置页跑在 QQ 进程里：这个应用被 Xposed 注入 QQ 后，QQ 内的悬浮球菜单里的齿轮按钮才会打开设置页。独立启动本应用时进程里没有 QQ，也没有 QQ 的资源，设置页无法显示，所以这里只做说明。\n\n怎么用\n1. 在 LSPosed 里启用本模块，作用域只勾 QQ。\n2. 重启 QQ（必须完全结束进程，配置在进程启动时读取）。\n3. 打开 QQ 的聊天界面，点悬浮球，再点齿轮图标。\n\n齿轮点了没反应或闪退，按顺序排查\n· 模块是否启用、作用域是否包含 QQ；改完必须重启 QQ。\n· QQ 是否被 HMA 之类的隐藏框架屏蔽，导致 QQ 读不到配置。\n· 抓日志看原因：adb logcat -s QQKuchiguse.ActProxy:V KuchiguseEntry:V\n  资源注入失败会出现 Resources$NotFoundException，取不到模块 APK 会出现 module apk path not found。</string>
+    <string name="debug_version_line">module: %1$s</string>
+    <string name="debug_qq_line">QQ: %1$s</string>
+    <string name="image_desc_master_label">给图片和表情加口癖</string>
+    <string name="caption_kind_picture">图片</string>
+    <string name="caption_kind_animated">动画表情</string>
+    <string name="caption_kind_emoji">普通表情</string>
+    <string name="caption_kind_face_bubble">表情泡泡</string>
+    <string name="caption_mode_off">关</string>
+    <string name="caption_mode_main_affix">跟主表一样</string>
+    <string name="caption_mode_affix">用公共口癖表</string>
+    <string name="caption_mode_random_whole">随机底句（整条消息）</string>
+    <string name="caption_kind_mode_off_note">这一类不处理，图片和表情照 QQ 原样。</string>
+    <string name="caption_kind_mode_main_note">这一类用主口癖表。改上面「口癖」段里那张表，这一类跟着变。</string>
+    <string name="caption_public_affix_label">公共口癖表</string>
+    <string name="caption_public_affix_hint">上面四类里选了「用公共口癖表」的，都从这一张里抽。</string>
+    <string name="caption_public_affix_empty">还没配。留空等于这一档跟主表一样。</string>
+    <string name="caption_kind_base_note">用下面那张随机底句表。</string>
+    <string name="caption_base_section_label">随机底句表</string>
+    <string name="show_list">点开</string>
+    <string name="caption_kind_affix_note">用下面那张公共口癖表（选了这一档的四类共用同一张）。</string>
+    <string name="caption_base_fallback">留空：不换底句，还是 QQ 那句，只按这一类的口癖接上去。</string>
+</resources>

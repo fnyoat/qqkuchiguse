@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Xposed scope: the plugin hooks QQ's message-sending path. -->
+    <string-array name="xposed_scope">
+        <item>com.tencent.mobileqq</item>
+    </string-array>
+</resources>
